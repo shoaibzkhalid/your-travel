@@ -1,16 +1,20 @@
 import React from 'react';
 import auth from '@react-native-firebase/auth';
 import { ProfileAvatar } from './ProfileAvatar';
-
 import CustomInput from '../../components/CustomInput';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components/native';
 import CustomBtn from '../../components/CustomBtn';
-import firebase from '@react-native-firebase/app';
+
+import firestore from '@react-native-firebase/firestore';
 
 const Profile = () => {
   const user = auth().currentUser;
-  const firestoreForDefaultApp = firebase.firestore();
+  const usersCollection = firestore().collection('Users');
+
+  console.log('usersCollection', usersCollection);
+
+  // const firestoreForDefaultApp = firebase.firestore();
   const [isLoading, setLoading] = React.useState(false);
 
   const {

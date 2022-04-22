@@ -21,7 +21,7 @@ const Home = () => {
 
         <HomeContent />
 
-        <CustomBtn>Search</CustomBtn>
+        {/* <CustomBtn>Search</CustomBtn> */}
       </Container>
     </HomeContextProvider>
   );
