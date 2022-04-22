@@ -3,10 +3,9 @@ import styled from 'styled-components/native';
 import { COLORS } from '../../theme/colors';
 import HomeIcons from './HomeIcons';
 import auth from '@react-native-firebase/auth';
+import { HomeContext } from '../../state/homeContext';
 
 const HomeHeader = () => {
-  console.log('auth', auth().currentUser);
-
   return (
     <Container>
       <HeaderText>MyTravels.com</HeaderText>

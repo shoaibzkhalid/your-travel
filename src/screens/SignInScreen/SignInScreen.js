@@ -19,8 +19,6 @@ const SignInScreen = () => {
   } = useForm();
 
   const onSignInPressed = async data => {
-    console.log('here', data);
-
     setLoading(true);
 
     auth()

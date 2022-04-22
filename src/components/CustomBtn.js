@@ -5,20 +5,30 @@ import styled from 'styled-components/native';
 import { COLORS } from '../theme/colors';
 import { SIZES } from '../theme/sizes';
 
-const CustomBtn = ({ children }) => {
+const CustomBtn = ({
+  children,
+  onPress,
+  text,
+  type = 'PRIMARY',
+  bgColor,
+  fgColor,
+  disabled = false,
+  style,
+  isLoading = false,
+}) => {
   return (
-    <Container>
+    <Container disabled={false} onPress={onPress}>
       <Button color={COLORS.white}>{children}</Button>
     </Container>
   );
 };
 
-const Container = styled.View`
+const Container = styled.TouchableOpacity`
   padding: 10px;
   margin: 10px 0px;
 
   background-color: ${COLORS.primary};
-  border-radius: ${SIZES.borderRadius};
+  border-radius: ${SIZES.borderRadius}px;
 `;
 
 export default CustomBtn;

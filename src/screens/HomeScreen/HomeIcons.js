@@ -10,7 +10,6 @@ import { SIZES } from '../../theme/sizes';
 const HomeIcons = () => {
   const [homeIcon, setHomeIcon] = React.useContext(HomeContext);
   const icons = ['flights', 'hotels', 'landmarks', 'events'];
-  console.log('homeIcon', homeIcon);
 
   return (
     <Container>
@@ -44,7 +43,7 @@ const IconBtnContainer = styled.TouchableOpacity`
   padding: 10px;
 
   margin: 10px;
-  border-radius: ${SIZES.borderRadius};
+  border-radius: ${SIZES.borderRadius}px;
 `;
 
 export default HomeIcons;

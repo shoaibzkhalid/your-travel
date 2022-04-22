@@ -5,7 +5,7 @@ import { TextInput } from 'react-native-paper';
 import { COLORS } from '../../theme/colors';
 
 const CustomInput = props => {
-  const { control, name, rules = {} } = props;
+  const { control, name, rules = {}, keyboardType = 'default' } = props;
   const { placeholder, defaultValue = '', secureTextEntry } = props;
 
   return (
@@ -26,6 +26,7 @@ const CustomInput = props => {
               onBlur={onBlur}
               // label={placeholder}
               defaultValue={defaultValue}
+              keyboardType={keyboardType}
               placeholder={placeholder}
               style={[styles.input, { backgroundColor: 'transparent' }]}
               secureTextEntry={secureTextEntry}

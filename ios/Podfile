@@ -12,9 +12,6 @@ target 'YourTravel' do
     :hermes_enabled => false
   )
 
-  pod 'RNAWSCognito', :path => '../node_modules/amazon-cognito-identity-js'
-
-  pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
 
   target 'YourTravelTests' do
     inherit! :complete

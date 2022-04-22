@@ -3,17 +3,42 @@ import { IconButton } from 'react-native-paper';
 import styled from 'styled-components/native';
 import { COLORS } from '../../theme/colors';
 import { ICONS } from '../../theme/icons';
+// import storage from '@react-native-firebase/storage';
+import { launchImageLibrary } from 'react-native-image-picker';
+import auth from '@react-native-firebase/auth';
+import { constants } from '../../config/constants';
 
-export const ProfileAvatar = ({ onChange, defaultValue }) => {
+export const ProfileAvatar = () => {
+  // SET CURRENT PHOTO
+  const user = auth().currentUser;
+
+  const [userPhoto, setUserPhoto] = React.useState(
+    user.photoURL ?? constants.placeHolderPhoto,
+  );
+
+  React.useEffect(() => {
+    return () => {};
+  }, []);
+
+  const uploadPhoto = async () => {
+    try {
+      // const result = await launchImageLibrary({ includeBase64: true });
+      // const photo = result.assets[0];
+      // const ref = await storage().ref(photo.fileName);
+      // await ref.putFile(photo.uri);
+      // const url = await ref.getDownloadURL();
+      // await auth().currentUser.updateProfile({ photoURL: url });
+      // setUserPhoto(photo.uri);
+    } catch (error) {
+      console.log('error uploading photo', error);
+    }
+  };
+
   return (
     <AvatarContainer>
-      <RoundedProfileImg
-        source={{
-          uri: `https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png`,
-        }}
-      />
+      <RoundedProfileImg source={{ uri: userPhoto }} />
 
-      <UploadIconContainer>
+      <UploadIconContainer onPress={uploadPhoto}>
         <IconButton icon={ICONS.camera} />
       </UploadIconContainer>
     </AvatarContainer>
