@@ -1,45 +1,51 @@
-import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  useWindowDimensions,
-  ScrollView,
-  TextInput,
-  Alert,
-} from 'react-native';
+import React, { useState } from 'react';
+import { View, Image, StyleSheet, useWindowDimensions, ScrollView } from 'react-native';
 import Logo from '../../../assets/images/Logo_1.png';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
-import SocialSignInButtons from '../../components/SocialSignInButtons';
-import {useNavigation} from '@react-navigation/native';
-import {useForm, Controller} from 'react-hook-form';
-import {Auth} from 'aws-amplify';
+import { useNavigation } from '@react-navigation/native';
+import { useForm } from 'react-hook-form';
+import auth from '@react-native-firebase/auth';
 
 const SignInScreen = () => {
-  const {height} = useWindowDimensions();
+  const { height } = useWindowDimensions();
   const navigation = useNavigation();
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
   } = useForm();
 
   const onSignInPressed = async data => {
-    if (loading) {
-      return;
-    }
+    console.log('here', data);
 
     setLoading(true);
-    try {
-      const response = await Auth.signIn(data.username, data.password);
-      console.log(response);
-    } catch (e) {
-      Alert.alert('Oops', e.message);
-    }
+
+    auth()
+      .signInWithEmailAndPassword(data.email, data.password)
+      .then(() => {
+        console.log('User signed in!');
+      })
+      .catch(error => {
+        if (error.code === 'auth/email-already-in-use') {
+          console.log('That email address is already in use!');
+        }
+
+        if (error.code === 'auth/invalid-email') {
+          console.log('That email address is invalid!');
+        }
+
+        console.error(error);
+      });
+
+    // try {
+    //   // const response = await Auth.signIn(data.email, data.password);
+    //   console.log(response);
+    // } catch (e) {
+    //   Alert.alert('Oops', e.message);
+    // }
     setLoading(false);
   };
 
@@ -56,15 +62,15 @@ const SignInScreen = () => {
       <View style={styles.root}>
         <Image
           source={Logo}
-          style={[styles.logo, {height: height * 0.3}]}
+          style={[styles.logo, { height: height * 0.3 }]}
           resizeMode="contain"
         />
 
         <CustomInput
-          name="username"
-          placeholder="Username"
+          name="email"
+          placeholder="Email"
           control={control}
-          rules={{required: 'Username is required'}}
+          rules={{ required: 'Email is required' }}
         />
 
         <CustomInput
@@ -82,22 +88,25 @@ const SignInScreen = () => {
         />
 
         <CustomButton
-          text={loading ? 'Loading...' : 'Sign In'}
+          text={'Sign In'}
           onPress={handleSubmit(onSignInPressed)}
+          isLoading={isLoading}
         />
 
         <CustomButton
           text="Forgot password?"
           onPress={onForgotPasswordPressed}
           type="TERTIARY"
+          isLoading={null}
         />
 
-        <SocialSignInButtons />
+        {/* <SocialSignInButtons /> */}
 
         <CustomButton
           text="Don't have an account? Create one"
           onPress={onSignUpPress}
           type="TERTIARY"
+          isLoading={null}
         />
       </View>
     </ScrollView>

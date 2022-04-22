@@ -1,25 +1,15 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, Text} from 'react-native';
 import Navigation from './src/navigation';
-import Amplify from 'aws-amplify';
-import config from './src/aws-exports';
-
-Amplify.configure(config);
+import { CustomStatusBar } from './src/components/CustomStatusBar';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const App = () => {
-  // Auth.signOut();
   return (
-    <SafeAreaView style={styles.root}>
+    <SafeAreaProvider>
+      <CustomStatusBar />
       <Navigation />
-    </SafeAreaView>
+    </SafeAreaProvider>
   );
 };
-
-const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: '#F9FBFC',
-  },
-});
 
 export default App;

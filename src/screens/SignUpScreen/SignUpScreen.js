@@ -1,32 +1,39 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, ScrollView, Alert} from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
-import SocialSignInButtons from '../../components/SocialSignInButtons';
-import {useNavigation} from '@react-navigation/core';
-import {useForm} from 'react-hook-form';
-import {Auth} from 'aws-amplify';
+import { useNavigation } from '@react-navigation/core';
+import { useForm } from 'react-hook-form';
+import auth from '@react-native-firebase/auth';
+import { COLORS } from '../../theme/colors';
 
 const EMAIL_REGEX =
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 const SignUpScreen = () => {
-  const {control, handleSubmit, watch} = useForm();
+  const [isLoading, setLoading] = React.useState(false);
+  const { control, handleSubmit, watch } = useForm();
   const pwd = watch('password');
   const navigation = useNavigation();
 
   const onRegisterPressed = async data => {
-    const {username, password, email, name} = data;
-    try {
-      await Auth.signUp({
-        username,
-        password,
-        attributes: {email, name, preferred_username: username},
-      });
+    setLoading(true);
 
-      navigation.navigate('ConfirmEmail', {username});
-    } catch (e) {
-      Alert.alert('Oops', e.message);
+    const { name, password, email } = data;
+    try {
+      await auth().createUserWithEmailAndPassword(email, password);
+      await auth().currentUser.updateProfile({ displayName: name });
+    } catch (error) {
+      setLoading(false);
+      if (error.code === 'auth/email-already-in-use') {
+        Alert.alert('That email address is already in use!');
+      }
+
+      if (error.code === 'auth/invalid-email') {
+        Alert.alert('That email address is invalid!');
+      }
+
+      // Alert.alert('Oops', error);
     }
   };
 
@@ -53,40 +60,16 @@ const SignUpScreen = () => {
           placeholder="Name"
           rules={{
             required: 'Name is required',
-            minLength: {
-              value: 3,
-              message: 'Name should be at least 3 characters long',
-            },
-            maxLength: {
-              value: 24,
-              message: 'Name should be max 24 characters long',
-            },
           }}
         />
 
-        <CustomInput
-          name="username"
-          control={control}
-          placeholder="Username"
-          rules={{
-            required: 'Username is required',
-            minLength: {
-              value: 3,
-              message: 'Username should be at least 3 characters long',
-            },
-            maxLength: {
-              value: 24,
-              message: 'Username should be max 24 characters long',
-            },
-          }}
-        />
         <CustomInput
           name="email"
           control={control}
           placeholder="Email"
           rules={{
             required: 'Email is required',
-            pattern: {value: EMAIL_REGEX, message: 'Email is invalid'},
+            pattern: { value: EMAIL_REGEX, message: 'Email is invalid' },
           }}
         />
         <CustomInput
@@ -114,6 +97,7 @@ const SignUpScreen = () => {
 
         <CustomButton
           text="Register"
+          isLoading={isLoading}
           onPress={handleSubmit(onRegisterPressed)}
         />
 
@@ -128,12 +112,11 @@ const SignUpScreen = () => {
           </Text>
         </Text>
 
-        <SocialSignInButtons />
-
         <CustomButton
           text="Have an account? Sign in"
           onPress={onSignInPress}
           type="TERTIARY"
+          isLoading={null}
         />
       </View>
     </ScrollView>
@@ -156,7 +139,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   link: {
-    color: '#FDB075',
+    color: COLORS.secondary,
   },
 });
 

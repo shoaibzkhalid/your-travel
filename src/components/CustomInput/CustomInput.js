@@ -1,37 +1,47 @@
 import React from 'react';
-import {View, Text, TextInput, StyleSheet} from 'react-native';
-import {Controller} from 'react-hook-form';
+import { View, Text, StyleSheet } from 'react-native';
+import { Controller } from 'react-hook-form';
+import { TextInput } from 'react-native-paper';
+import { COLORS } from '../../theme/colors';
 
-const CustomInput = ({
-  control,
-  name,
-  rules = {},
-  placeholder,
-  secureTextEntry,
-}) => {
+const CustomInput = props => {
+  const { control, name, rules = {} } = props;
+  const { placeholder, defaultValue = '', secureTextEntry } = props;
+
   return (
     <Controller
       control={control}
       name={name}
       rules={rules}
-      render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
+      render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => (
         <>
           <View
             style={[
               styles.container,
-              {borderColor: error ? 'red' : '#e8e8e8'},
+              { borderColor: error ? COLORS.primary : '#e8e8e8' },
             ]}>
             <TextInput
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
+              // label={placeholder}
+              defaultValue={defaultValue}
               placeholder={placeholder}
-              style={styles.input}
+              style={[styles.input, { backgroundColor: 'transparent' }]}
               secureTextEntry={secureTextEntry}
+              autoCapitalize={'none'}
+              autoCorrect={false}
+              autoComplete={'off'}
+              underlineColor={COLORS.primary}
+              theme={{ colors: { primary: COLORS.primary } }}
             />
           </View>
           {error && (
-            <Text style={{color: 'red', alignSelf: 'stretch'}}>
+            <Text
+              // underlineColor={COLORS.primary}
+              style={{ color: 'red', alignSelf: 'stretch' }}
+              // theme={{colors: {primary: COLORS.primary}}}
+            >
               {error.message || 'Error'}
             </Text>
           )}
@@ -50,11 +60,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
 
-    paddingHorizontal: 10,
     marginVertical: 5,
   },
   input: {
-    color:"black"
+    color: 'black',
   },
 });
 

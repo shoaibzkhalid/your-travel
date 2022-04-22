@@ -1,7 +1,18 @@
 import React from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { ActivityIndicator } from 'react-native-paper';
+import { COLORS } from '../../theme/colors';
 
-const CustomButton = ({onPress, text, type = 'PRIMARY', bgColor, fgColor,disabled=false,style}) => {
+const CustomButton = ({
+  onPress,
+  text,
+  type = 'PRIMARY',
+  bgColor,
+  fgColor,
+  disabled = false,
+  style,
+  isLoading = false,
+}) => {
   return (
     <Pressable
       disabled={false}
@@ -9,17 +20,25 @@ const CustomButton = ({onPress, text, type = 'PRIMARY', bgColor, fgColor,disable
       style={[
         styles.container,
         styles[`container_${type}`],
-        bgColor ? disabled? {backgroundColor: bgColor}:{backgroundColor:'grey'} : {},
-        style
+        bgColor
+          ? disabled
+            ? { backgroundColor: bgColor }
+            : { backgroundColor: 'grey' }
+          : {},
+        style,
       ]}>
-      <Text
-        style={[
-          styles.text,
-          styles[`text_${type}`],
-          fgColor ? {color: fgColor} : {},
-        ]}>
-        {text}
-      </Text>
+      {isLoading && isLoading !== null ? (
+        <ActivityIndicator size={'small'} color={'white'} />
+      ) : (
+        <Text
+          style={[
+            styles.text,
+            styles[`text_${type}`],
+            fgColor ? { color: fgColor } : {},
+          ]}>
+          {text}
+        </Text>
+      )}
     </Pressable>
   );
 };
@@ -36,11 +55,11 @@ const styles = StyleSheet.create({
   },
 
   container_PRIMARY: {
-    backgroundColor: '#3B71F3',
+    backgroundColor: COLORS.primary,
   },
 
   container_SECONDARY: {
-    borderColor: '#3B71F3',
+    borderColor: COLORS.primary,
     borderWidth: 2,
   },
 
@@ -52,7 +71,7 @@ const styles = StyleSheet.create({
   },
 
   text_SECONDARY: {
-    color: '#3B71F3',
+    color: COLORS.primary,
   },
 
   text_TERTIARY: {

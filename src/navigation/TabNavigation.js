@@ -1,104 +1,84 @@
-import { View, Text,Image } from 'react-native'
-import React,{useEffect} from 'react'
-import {Auth} from 'aws-amplify';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import Profile from '../screens/ProfileScreen/Profile'
-import HomeScreen from '../screens/HomeScreen'
-const Tab=createBottomTabNavigator();
-const TabNavigation = ({navigation}) => {
-  const signOut = () => {
-    Auth.signOut();
-  };
+import { View, Text, Image } from 'react-native';
+import React from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Profile from '../screens/ProfileScreen/Profile';
+import HomeScreen from '../screens/HomeScreen';
+import auth from '@react-native-firebase/auth';
+import { COLORS } from '../theme/colors';
+import { ICONS } from '../theme/icons';
+
+const Tab = createBottomTabNavigator();
+
+const TabNavigation = ({ navigation }) => {
+  const tabs = [
+    {
+      name: 'Explore',
+      component: HomeScreen,
+      icon: ICONS.explore,
+    },
+    {
+      name: 'Profile',
+      component: Profile,
+      icon: ICONS.profile,
+    },
+
+    {
+      name: 'Logout',
+      component: Profile,
+      icon: ICONS.logout,
+    },
+  ];
+
   return (
-    
     <Tab.Navigator
-    screenOptions={{
-        tabBarHideOnKeyboard:true,
-        headerTitleAlign:'center'
-    }}
-    >
-        <Tab.Screen name='Homepage' component={HomeScreen}
-        options={{
-          tabBarIcon:({})=>{
-            return (
-            <View
-            style={{
-              display:'flex',
-              alignItems:'center'
-            }}
-            >
-            <Image
-            source={require('../../assets/images/home.png')}
-            style={{
-              tintColor:'#000',
-              height:30,
-              width:30,
-              justifyContent:'center'
-            }}
-            />
-            </View>
-            );
-          }
-        }}
-        /> 
-        <Tab.Screen name='Profile' component={Profile}
-        options={{
-          tabBarIcon:({})=>{
-            return (
-            <View
-            style={{
-              display:'flex',
-              alignItems:'center'
-            }}
-            >
-            <Image
-            source={require('../../assets/images/profile.png')}
-            style={{
-              tintColor:'#000',
-              height:30,
-              width:30,
-              justifyContent:'center'
-            }}
-            />
-            </View>
-            );
-          }
-        }}
+      screenOptions={{
+        tabBarHideOnKeyboard: true,
+        headerTitleAlign: 'center',
+        headerShown: false,
+      }}>
+      {tabs.map(tab => (
+        <Tab.Screen
+          name={tab.name}
+          component={tab.component}
+          options={{
+            tabBarIcon: ({ focused }) => {
+              return (
+                <View
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}>
+                  <Image
+                    source={tab.icon}
+                    style={{
+                      tintColor: focused ? COLORS.primary : '#000',
+                      height: 30,
+                      width: 30,
+                      justifyContent: 'center',
+                    }}
+                  />
+                </View>
+              );
+            },
+            tabBarLabel: ({ focused }) => {
+              return (
+                <Text style={{ color: focused ? COLORS.primary : 'black' }}>
+                  {tab.name}
+                </Text>
+              );
+            },
+          }}
+          listeners={{
+            tabPress: e => {
+              if (tab.name !== 'Logout') return;
+              e.preventDefault();
+              auth().signOut();
+            },
+          }}
         />
-        <Tab.Screen name="Signout" component={Profile}
-        options={{
-          tabBarIcon:({})=>{
-            return (
-            <View
-            style={{
-              display:'flex',
-              alignItems:'center'
-            }}
-            >
-            <Image
-            source={require('../../assets/images/logout.png')}
-            style={{
-              tintColor:'#000',
-              height:30,
-              width:30,
-              justifyContent:'center'
-            }}
-            />
-            </View>
-            );
-          }
-        }}
-        listeners={{
-          tabPress:(e)=>{
-            e.preventDefault()
-            signOut();
-          }
-        }}
-        />
-
+      ))}
     </Tab.Navigator>
-    
-  )
-}
+  );
+};
 
-export default TabNavigation
+export default TabNavigation;
