@@ -1,18 +1,18 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { Controller } from 'react-hook-form';
-import { TextInput } from 'react-native-paper';
-import { COLORS } from '../../theme/colors';
+import React from 'react'
+import { View, Text, StyleSheet } from 'react-native'
+import { Controller } from 'react-hook-form'
+import { TextInput } from 'react-native-paper'
+import { COLORS } from '../../theme/colors'
 
 const CustomInput = props => {
-  const { control, name, rules = {}, keyboardType = 'default' } = props;
-  const { placeholder, defaultValue = '', secureTextEntry, disabled = false } = props;
+  const { control, name, rules = {}, keyboardType = 'default' } = props
+  const { placeholder, defaultValue = '', secureTextEntry, disabled = false } = props
 
   return (
     <Controller
       control={control}
       name={name}
-      rules={rules}
+      // rules={rules}
       render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => (
         <>
           <View
@@ -50,8 +50,8 @@ const CustomInput = props => {
         </>
       )}
     />
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -67,6 +67,6 @@ const styles = StyleSheet.create({
   input: {
     color: 'black',
   },
-});
+})
 
-export default CustomInput;
+export default CustomInput

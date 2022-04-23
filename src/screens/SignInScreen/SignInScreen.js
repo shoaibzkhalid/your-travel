@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { View, Image, StyleSheet, useWindowDimensions, ScrollView } from 'react-native'
-import Logo from '../../../assets/images/Logo_1.png'
+import { View, StyleSheet, ScrollView } from 'react-native'
 import CustomInput from '../../components/CustomInput'
 import CustomButton from '../../components/CustomButton'
 import { useNavigation } from '@react-navigation/native'
@@ -16,11 +15,23 @@ const SignInScreen = () => {
   const { control, handleSubmit } = useForm()
 
   const onSignInPressed = async data => {
+    // const { email, password } = data
     setLoading(true)
+
+    const { password, email } = {
+      email: 'shoaibzkhalid@gmail.com',
+      password: '123456',
+    }
+
     try {
-      await auth().signInWithEmailAndPassword(data.email, data.password)
+      await auth().signInWithEmailAndPassword(email, password)
+      const emailVerified = auth().currentUser.emailVerified
       setLoading(false)
-    } catch (e) {
+
+      if (!emailVerified) {
+        showErrorToast('Verify your email to sign in')
+      }
+    } catch (error) {
       console.log('Error signing in: ', error)
       if (error.code === 'auth/email-already-in-use') {
         showErrorToast('Email already in use')
@@ -31,16 +42,9 @@ const SignInScreen = () => {
       }
 
       showErrorToast(error.message)
-
       console.error(error)
     }
 
-    // try {
-    //   // const response = await Auth.signIn(data.email, data.password);
-    //   console.log(response);
-    // } catch (e) {
-    //   Alert.alert('Oops', e.message);
-    // }
     setLoading(false)
   }
 
@@ -54,7 +58,7 @@ const SignInScreen = () => {
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <HomeHeader />
+      <HomeHeader subText={'Login to see your saved trips and book your next trip!'} />
       <View style={styles.root}>
         {/* <Image
           source={Logo}

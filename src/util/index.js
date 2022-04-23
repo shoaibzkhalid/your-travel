@@ -22,8 +22,6 @@ export const showSuccessToast = message => {
     text1: 'Success',
     text2: message,
   })
-
-  console.log('here', message, Toast)
 }
 
 export const showErrorToast = message => {
@@ -32,6 +30,4 @@ export const showErrorToast = message => {
     text1: 'Error',
     text2: message,
   })
-
-  console.log('here', message, Toast)
 }

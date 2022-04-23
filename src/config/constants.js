@@ -1,5 +1,4 @@
 import Profile from '../screens/ProfileScreen/Profile'
-import HomeScreen from '../screens/HomeScreen'
 import { ICONS } from '../theme/icons'
 import { HomeStackScreen } from '../navigation/stacks'
 

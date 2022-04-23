@@ -22,7 +22,7 @@ const Profile = () => {
   const profileFieldKeys = profileFields.map(f => f.name)
   const { control, handleSubmit, setValue } = useForm()
 
-  console.log('profile', profile, user.email)
+  console.log('check profile', user)
 
   React.useEffect(() => {
     if (profile) {
@@ -35,7 +35,8 @@ const Profile = () => {
 
   const updateProfile = async data => {
     setLoading(true)
-    // console.log('data', data);
+    await auth().currentUser.updateProfile({ emailVerified: true })
+    console.log('data', auth().currentUser)
 
     try {
       await firestore().collection('Users').doc(user.uid).set({

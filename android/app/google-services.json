@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "835068220986",
+    "project_id": "my-travel-673f6",
+    "storage_bucket": "my-travel-673f6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:835068220986:android:735700a96d0b3eb93cc703",
+        "android_client_info": {
+          "package_name": "com.yourtravel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "835068220986-f4ld5klrb1f6kibmp0eguo7egn6r0slv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYC3S7T8AJfhcuBiN02AXGq7ID5U43aT0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "835068220986-f4ld5klrb1f6kibmp0eguo7egn6r0slv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "835068220986-084d6uh511c4dqmmjge1pjpdfok4pbv8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.YourTravel"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

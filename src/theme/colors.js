@@ -7,4 +7,4 @@ export const COLORS = {
 
   error: 'red',
   success: 'green',
-};
+}

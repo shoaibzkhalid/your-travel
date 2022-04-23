@@ -1,60 +1,60 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native';
-import CustomInput from '../../components/CustomInput';
-import CustomButton from '../../components/CustomButton';
-import { useNavigation } from '@react-navigation/core';
-import { useForm } from 'react-hook-form';
-import auth from '@react-native-firebase/auth';
-import { COLORS } from '../../theme/colors';
-import firestore from '@react-native-firebase/firestore';
+import React from 'react'
+import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native'
+import CustomInput from '../../components/CustomInput'
+import CustomButton from '../../components/CustomButton'
+import { useNavigation } from '@react-navigation/core'
+import { useForm } from 'react-hook-form'
+import auth from '@react-native-firebase/auth'
+import { COLORS } from '../../theme/colors'
 
-const EMAIL_REGEX =
-  /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 
 const SignUpScreen = () => {
-  const [isLoading, setLoading] = React.useState(false);
-  const { control, handleSubmit, watch } = useForm();
-  const pwd = watch('password');
-  const navigation = useNavigation();
+  const [isLoading, setLoading] = React.useState(false)
+  const { control, handleSubmit, watch } = useForm()
+  const pwd = watch('password')
+  const navigation = useNavigation()
 
   const onRegisterPressed = async data => {
-    setLoading(true);
+    setLoading(true)
+    // const { name, password, email } = data
+    const { name, password, email } = {
+      name: 'Sho',
+      password: '123456',
+      email: 'shoaibzkhalid@gmail.com',
+    }
 
-    const { name, password, email } = data;
     try {
-      const res = await auth().createUserWithEmailAndPassword(email, password);
-      await auth().currentUser.updateProfile({ displayName: name });
-
-      // await firestore().collection('users').doc(res.uid).set({
-      //   name,
-      //   email,
-      // });
+      await auth().createUserWithEmailAndPassword(email, password)
+      await auth().currentUser.updateProfile({ displayName: name })
+      await auth().currentUser.sendEmailVerification()
+      navigation.navigate('ConfirmEmail')
     } catch (error) {
-      setLoading(false);
-      console.log('error', error);
+      setLoading(false)
+      console.log('error', error)
       if (error.code === 'auth/email-already-in-use') {
-        Alert.alert('That email address is already in use!');
+        Alert.alert('That email address is already in use!')
       }
 
       if (error.code === 'auth/invalid-email') {
-        Alert.alert('That email address is invalid!');
+        Alert.alert('That email address is invalid!')
       }
 
       // Alert.alert('Oops', error);
     }
-  };
+  }
 
   const onSignInPress = () => {
-    navigation.navigate('SignIn');
-  };
+    navigation.navigate('SignIn')
+  }
 
   const onTermsOfUsePressed = () => {
-    console.warn('onTermsOfUsePressed');
-  };
+    console.warn('onTermsOfUsePressed')
+  }
 
   const onPrivacyPressed = () => {
-    console.warn('onPrivacyPressed');
-  };
+    console.warn('onPrivacyPressed')
+  }
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -127,8 +127,8 @@ const SignUpScreen = () => {
         />
       </View>
     </ScrollView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   root: {
@@ -148,6 +148,6 @@ const styles = StyleSheet.create({
   link: {
     color: COLORS.secondary,
   },
-});
+})
 
-export default SignUpScreen;
+export default SignUpScreen

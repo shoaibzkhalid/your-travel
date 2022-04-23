@@ -7,7 +7,7 @@ import { HomeContext } from '../../state/homeContext'
 import { Text } from 'react-native-paper'
 import { useRoute } from '@react-navigation/native'
 
-const HomeHeader = () => {
+const HomeHeader = ({ subText }) => {
   const route = useRoute()
 
   return (
@@ -17,9 +17,7 @@ const HomeHeader = () => {
       {route.name === 'Home' ? (
         <HomeIcons />
       ) : (
-        <HeaderSubheading>
-          Login to see your saved trips and book your next trip!
-        </HeaderSubheading>
+        <HeaderSubheading>{subText}</HeaderSubheading>
       )}
     </Container>
   )
@@ -28,6 +26,9 @@ const HomeHeader = () => {
 const Container = styled.View`
   background-color: ${COLORS.primary};
   padding-bottom: 10px;
+  align-items: center;
+  height: 25%;
+  justify-content: center;
 `
 
 const HeaderText = styled.Text`
