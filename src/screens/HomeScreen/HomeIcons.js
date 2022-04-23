@@ -9,7 +9,7 @@ import { SIZES } from '../../theme/sizes';
 
 const HomeIcons = () => {
   const [homeIcon, setHomeIcon] = React.useContext(HomeContext);
-  const icons = ['flights', 'hotels', 'landmarks', 'events'];
+  const icons = ['hotels', 'flights', 'landmarks', 'events'];
 
   return (
     <Container>

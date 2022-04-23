@@ -1,31 +1,31 @@
-import { View, Text } from 'react-native';
-import React from 'react';
-import { ActivityIndicator, Button } from 'react-native-paper';
-import styled from 'styled-components/native';
-import { COLORS } from '../theme/colors';
-import { SIZES } from '../theme/sizes';
+import { View, Text, Image } from 'react-native'
+import React from 'react'
+import { ActivityIndicator, Button } from 'react-native-paper'
+import styled from 'styled-components/native'
+import { COLORS } from '../theme/colors'
+import { SIZES } from '../theme/sizes'
+import { IconButton } from 'react-native-paper'
+import { ICONS } from '../theme/icons'
 
-const CustomBtn = ({
-  children,
-  onPress,
-  text,
-  type = 'PRIMARY',
-  bgColor,
-  fgColor,
-  disabled = false,
-  style,
-  isLoading = false,
-}) => {
+const CustomBtn = ({ children, onPress, isLoading = false, icon = null }) => {
   return (
     <Container disabled={false} onPress={onPress}>
       {isLoading && isLoading !== null ? (
         <ActivityIndicator size={'small'} color={'white'} />
       ) : (
-        <Button color={COLORS.white}>{children}</Button>
+        <View
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'row',
+          }}>
+          {icon && <Image source={ICONS[icon]} style={{ width: 20, height: 20 }} />}
+          <Button color={COLORS.white}>{children}</Button>
+        </View>
       )}
     </Container>
-  );
-};
+  )
+}
 
 const Container = styled.TouchableOpacity`
   padding: 10px;
@@ -33,6 +33,6 @@ const Container = styled.TouchableOpacity`
 
   background-color: ${COLORS.primary};
   border-radius: ${SIZES.borderRadius}px;
-`;
+`
 
-export default CustomBtn;
+export default CustomBtn

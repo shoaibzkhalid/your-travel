@@ -1,14 +1,20 @@
-import { View, Text, Image } from 'react-native';
-import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import auth from '@react-native-firebase/auth';
-import { COLORS } from '../theme/colors';
-import { UserContextProvider } from '../state/userContext';
-import { bottomTabs } from '../config/constants';
+import { View, Text, Image } from 'react-native'
+import React from 'react'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import auth from '@react-native-firebase/auth'
+import { COLORS } from '../theme/colors'
+import { UserContextProvider } from '../state/userContext'
+import { bottomTabs } from '../config/constants'
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen'
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator()
 
 const TabNavigation = ({ navigation }) => {
+  const user = auth().currentUser
+
   return (
     <UserContextProvider>
       <Tab.Navigator
@@ -16,7 +22,12 @@ const TabNavigation = ({ navigation }) => {
           tabBarHideOnKeyboard: true,
           headerTitleAlign: 'center',
           headerShown: false,
+          tabBarStyle: { height: hp(11) },
+          tabBarItemStyle: {
+            marginTop: 10,
+          },
         }}
+
         // initialRouteName="Profile"
       >
         {bottomTabs.map(tab => (
@@ -32,38 +43,51 @@ const TabNavigation = ({ navigation }) => {
                       display: 'flex',
                       alignItems: 'center',
                     }}>
-                    <Image
-                      source={tab.icon}
-                      style={{
-                        tintColor: focused ? COLORS.primary : '#000',
-                        height: 30,
-                        width: 30,
-                        justifyContent: 'center',
-                      }}
-                    />
+                    {user.photoURL && tab.name === 'Profile' ? (
+                      <Image
+                        source={{ uri: user.photoURL }}
+                        style={{
+                          height: 35,
+                          width: 35,
+                          borderRadius: 20,
+                          marginBottom: 5,
+                        }}
+                      />
+                    ) : (
+                      <Image
+                        source={tab.icon}
+                        style={{
+                          tintColor: focused ? COLORS.primary : '#000',
+                          height: 30,
+                          width: 30,
+                          justifyContent: 'center',
+                        }}
+                      />
+                    )}
                   </View>
-                );
+                )
               },
               tabBarLabel: ({ focused }) => {
                 return (
-                  <Text style={{ color: focused ? COLORS.primary : 'black' }}>
+                  <Text
+                    style={{ color: focused ? COLORS.primary : 'black', marginTop: 4 }}>
                     {tab.name}
                   </Text>
-                );
+                )
               },
             }}
             listeners={{
               tabPress: e => {
-                if (tab.name !== 'Logout') return;
-                e.preventDefault();
-                auth().signOut();
+                if (tab.name !== 'Logout') return
+                e.preventDefault()
+                auth().signOut()
               },
             }}
           />
         ))}
       </Tab.Navigator>
     </UserContextProvider>
-  );
-};
+  )
+}
 
-export default TabNavigation;
+export default TabNavigation

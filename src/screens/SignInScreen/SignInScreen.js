@@ -1,42 +1,39 @@
-import React, { useState } from 'react';
-import { View, Image, StyleSheet, useWindowDimensions, ScrollView } from 'react-native';
-import Logo from '../../../assets/images/Logo_1.png';
-import CustomInput from '../../components/CustomInput';
-import CustomButton from '../../components/CustomButton';
-import { useNavigation } from '@react-navigation/native';
-import { useForm } from 'react-hook-form';
-import auth from '@react-native-firebase/auth';
+import React, { useState } from 'react'
+import { View, Image, StyleSheet, useWindowDimensions, ScrollView } from 'react-native'
+import Logo from '../../../assets/images/Logo_1.png'
+import CustomInput from '../../components/CustomInput'
+import CustomButton from '../../components/CustomButton'
+import { useNavigation } from '@react-navigation/native'
+import { useForm } from 'react-hook-form'
+import auth from '@react-native-firebase/auth'
+import { showErrorToast } from '../../util'
+import CustomBtn from '../../components/CustomBtn'
+import HomeHeader from '../HomeScreen/HomeHeader'
 
 const SignInScreen = () => {
-  const { height } = useWindowDimensions();
-  const navigation = useNavigation();
-  const [isLoading, setLoading] = useState(false);
-
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const navigation = useNavigation()
+  const [isLoading, setLoading] = useState(false)
+  const { control, handleSubmit } = useForm()
 
   const onSignInPressed = async data => {
-    setLoading(true);
+    setLoading(true)
+    try {
+      await auth().signInWithEmailAndPassword(data.email, data.password)
+      setLoading(false)
+    } catch (e) {
+      console.log('Error signing in: ', error)
+      if (error.code === 'auth/email-already-in-use') {
+        showErrorToast('Email already in use')
+      }
 
-    auth()
-      .signInWithEmailAndPassword(data.email, data.password)
-      .then(() => {
-        console.log('User signed in!');
-      })
-      .catch(error => {
-        if (error.code === 'auth/email-already-in-use') {
-          console.log('That email address is already in use!');
-        }
+      if (error.code === 'auth/invalid-email') {
+        showErrorToast('That email address is invalid!')
+      }
 
-        if (error.code === 'auth/invalid-email') {
-          console.log('That email address is invalid!');
-        }
+      showErrorToast(error.message)
 
-        console.error(error);
-      });
+      console.error(error)
+    }
 
     // try {
     //   // const response = await Auth.signIn(data.email, data.password);
@@ -44,25 +41,26 @@ const SignInScreen = () => {
     // } catch (e) {
     //   Alert.alert('Oops', e.message);
     // }
-    setLoading(false);
-  };
+    setLoading(false)
+  }
 
   const onForgotPasswordPressed = () => {
-    navigation.navigate('ForgotPassword');
-  };
+    navigation.navigate('ForgotPassword')
+  }
 
   const onSignUpPress = () => {
-    navigation.navigate('SignUp');
-  };
+    navigation.navigate('SignUp')
+  }
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
+      <HomeHeader />
       <View style={styles.root}>
-        <Image
+        {/* <Image
           source={Logo}
           style={[styles.logo, { height: height * 0.3 }]}
           resizeMode="contain"
-        />
+        /> */}
 
         <CustomInput
           name="email"
@@ -85,11 +83,9 @@ const SignInScreen = () => {
           }}
         />
 
-        <CustomButton
-          text={'Sign In'}
-          onPress={handleSubmit(onSignInPressed)}
-          isLoading={isLoading}
-        />
+        <CustomBtn onPress={handleSubmit(onSignInPressed)} isLoading={isLoading}>
+          Sign In
+        </CustomBtn>
 
         <CustomButton
           text="Forgot password?"
@@ -97,8 +93,6 @@ const SignInScreen = () => {
           type="TERTIARY"
           isLoading={null}
         />
-
-        {/* <SocialSignInButtons /> */}
 
         <CustomButton
           text="Don't have an account? Create one"
@@ -108,19 +102,19 @@ const SignInScreen = () => {
         />
       </View>
     </ScrollView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   root: {
-    alignItems: 'center',
-    padding: 20,
+    padding: 10,
   },
   logo: {
     width: '70%',
     maxWidth: 300,
     maxHeight: 200,
+    alignSelf: 'center',
   },
-});
+})
 
-export default SignInScreen;
+export default SignInScreen

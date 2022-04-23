@@ -24,6 +24,11 @@ export const ProfileAvatar = () => {
     try {
       setLoading(true);
       const result = await launchImageLibrary({ includeBase64: true });
+      if (result.didCancel) {
+        setLoading(false);
+        return;
+      }
+
       const photo = result.assets[0];
       const ref = await storage().ref(photo.fileName);
       await ref.putFile(photo.uri);
@@ -40,7 +45,7 @@ export const ProfileAvatar = () => {
   return (
     <AvatarContainer>
       {isLoading ? (
-        <View style={{ padding: 100, height: 150 }}>
+        <View style={{ padding: 50, height: 130 }}>
           <ActivityIndicator />
         </View>
       ) : (
@@ -55,15 +60,15 @@ export const ProfileAvatar = () => {
 };
 
 const AvatarContainer = styled.View`
-  justify-content: center;
   padding: 5px;
   align-self: center;
   padding-bottom: 0;
 `;
 
 const RoundedProfileImg = styled.Image`
-  width: 150px;
-  height: 150px;
+  width: 130px;
+  height: 130px;
+  margin-top: 40px;
   border-radius: 100px;
 `;
 
@@ -71,7 +76,7 @@ const UploadIconContainer = styled.TouchableOpacity`
   background-color: ${COLORS.white};
   align-self: flex-end;
   top: -40px;
-  padding: 5px;
+  /* padding: 5px; */
   /* margin-bottom: 0; */
   border-radius: 50px;
 `;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, createContext } from 'react';
 
-const defaultValue = 'flights';
+const defaultValue = 'hotels';
 
 export const HomeContext = createContext([defaultValue, v => {}]);
 
