@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native';
 import React from 'react';
-import { Button } from 'react-native-paper';
+import { ActivityIndicator, Button } from 'react-native-paper';
 import styled from 'styled-components/native';
 import { COLORS } from '../theme/colors';
 import { SIZES } from '../theme/sizes';
@@ -18,7 +18,11 @@ const CustomBtn = ({
 }) => {
   return (
     <Container disabled={false} onPress={onPress}>
-      <Button color={COLORS.white}>{children}</Button>
+      {isLoading && isLoading !== null ? (
+        <ActivityIndicator size={'small'} color={'white'} />
+      ) : (
+        <Button color={COLORS.white}>{children}</Button>
+      )}
     </Container>
   );
 };

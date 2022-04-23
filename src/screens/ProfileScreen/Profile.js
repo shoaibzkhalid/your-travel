@@ -5,59 +5,57 @@ import CustomInput from '../../components/CustomInput';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components/native';
 import CustomBtn from '../../components/CustomBtn';
-
 import firestore from '@react-native-firebase/firestore';
+import { profileFields } from '../../config/constants';
+import { UserContext } from '../../state/userContext';
 
 const Profile = () => {
   const user = auth().currentUser;
-  const usersCollection = firestore().collection('Users');
+  const [profile] = React.useContext(UserContext);
 
-  console.log('usersCollection', usersCollection);
-
-  // const firestoreForDefaultApp = firebase.firestore();
   const [isLoading, setLoading] = React.useState(false);
+  const profileFieldKeys = profileFields.map(f => f.name);
+  const { control, handleSubmit, setValue } = useForm();
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  // console.log('profile', profile);
+
+  React.useEffect(() => {
+    profileFieldKeys.map(key => setValue(key, profile[key] ?? user[key]));
+  }, [user]);
 
   const updateProfile = async data => {
     setLoading(true);
-    const { name, phoneNumber } = data;
 
-    auth().currentUser.updateProfile({
-      displayName: name,
-    });
-
-    console.log('data', data, user);
-
-    setLoading(false);
+    try {
+      await firestore().collection('Users').doc(user.uid).set({
+        displayName: data.displayName,
+        country: data.country,
+        phoneNumber: data.phoneNumber,
+      });
+      setLoading(false);
+    } catch (error) {
+      console.log('error updating profile', error);
+    }
   };
-
-  // console.log('data', user);
 
   return (
     <Container>
       <ProfileAvatar />
 
-      <CustomInput
-        name="name"
-        placeholder="Name"
-        defaultValue={user.displayName}
-        control={control}
-        rules={{ required: 'Name is required' }}
-      />
+      {profileFields.map(field => (
+        <CustomInput
+          key={field.name}
+          disabled={field.name === 'email'}
+          name={field.name}
+          placeholder={field.placeholder}
+          defaultValue={profile[field.name]}
+          control={control}
+        />
+      ))}
 
-      <CustomInput
-        name="phoneNumber"
-        placeholder="Phone Number"
-        keyboardType={'number-pad'}
-        control={control}
-      />
-
-      <CustomBtn onPress={handleSubmit(updateProfile)}>Update</CustomBtn>
+      <CustomBtn onPress={handleSubmit(updateProfile)} isLoading={isLoading}>
+        Update
+      </CustomBtn>
     </Container>
   );
 };

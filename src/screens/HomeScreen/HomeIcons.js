@@ -14,7 +14,7 @@ const HomeIcons = () => {
   return (
     <Container>
       {icons.map(icon => (
-        <HomeIcon>
+        <HomeIcon key={icon}>
           <IconBtnContainer active={icon === homeIcon} onPress={() => setHomeIcon(icon)}>
             <IconButton icon={ICONS[icon]} />
           </IconBtnContainer>

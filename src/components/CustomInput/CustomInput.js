@@ -6,7 +6,7 @@ import { COLORS } from '../../theme/colors';
 
 const CustomInput = props => {
   const { control, name, rules = {}, keyboardType = 'default' } = props;
-  const { placeholder, defaultValue = '', secureTextEntry } = props;
+  const { placeholder, defaultValue = '', secureTextEntry, disabled = false } = props;
 
   return (
     <Controller
@@ -21,6 +21,7 @@ const CustomInput = props => {
               { borderColor: error ? COLORS.primary : '#e8e8e8' },
             ]}>
             <TextInput
+              disabled={disabled}
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}

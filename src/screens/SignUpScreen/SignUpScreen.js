@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/core';
 import { useForm } from 'react-hook-form';
 import auth from '@react-native-firebase/auth';
 import { COLORS } from '../../theme/colors';
+import firestore from '@react-native-firebase/firestore';
 
 const EMAIL_REGEX =
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -21,10 +22,16 @@ const SignUpScreen = () => {
 
     const { name, password, email } = data;
     try {
-      await auth().createUserWithEmailAndPassword(email, password);
+      const res = await auth().createUserWithEmailAndPassword(email, password);
       await auth().currentUser.updateProfile({ displayName: name });
+
+      // await firestore().collection('users').doc(res.uid).set({
+      //   name,
+      //   email,
+      // });
     } catch (error) {
       setLoading(false);
+      console.log('error', error);
       if (error.code === 'auth/email-already-in-use') {
         Alert.alert('That email address is already in use!');
       }

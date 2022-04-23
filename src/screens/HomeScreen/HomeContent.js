@@ -1,4 +1,3 @@
-import { View } from 'react-native';
 import React from 'react';
 import { HomeContext } from '../../state/homeContext';
 import { LightBgTxt } from '../../components/LightBgTxt';
@@ -6,13 +5,11 @@ import Landmarks from './Landmarks';
 import { Fragment } from 'react/cjs/react.production.min';
 import { useForm } from 'react-hook-form';
 import CustomInput from '../../components/CustomInput/CustomInput';
+import CustomBtn from '../../components/CustomBtn';
 
 const HomeContent = () => {
   const [homeIcon, setHomeIcon] = React.useContext(HomeContext);
-
-  const { control, handleSubmit, watch } = useForm({});
-
-  console.log('homeIcon 2', homeIcon === 'flights');
+  const { control, handleSubmit } = useForm({});
 
   switch (homeIcon) {
     case 'flights':
@@ -20,6 +17,8 @@ const HomeContent = () => {
         <Fragment>
           <LightBgTxt>Search Flights</LightBgTxt>
           <CustomInput name="username" control={control} placeholder="Destination" />
+
+          <CustomBtn>Search</CustomBtn>
         </Fragment>
       );
 

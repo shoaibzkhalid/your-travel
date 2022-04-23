@@ -1,26 +1,32 @@
-import React from 'react';
-import { View, Image, Share } from 'react-native';
-import CustomBtn from '../../components/CustomBtn';
+import React, { useContext } from 'react';
 import styled from 'styled-components/native';
-
-import { launchImageLibrary } from 'react-native-image-picker';
 import HomeHeader from './HomeHeader';
-import { HomeContext, HomeContextProvider } from '../../state/homeContext';
+import { HomeContextProvider } from '../../state/homeContext';
 import HomeContent from './HomeContent';
+import auth from '@react-native-firebase/auth';
+import { UserContext } from '../../state/userContext';
+import firestore from '@react-native-firebase/firestore';
+import { useLocation } from '../../util/useLocation';
 
 const Home = () => {
-  const [homeIcon, setHomeIcon] = React.useContext(HomeContext);
+  const authUser = auth().currentUser;
+  const [user, setUser] = useContext(UserContext);
+  const { location } = useLocation();
+
+  // console.log('location', location);
+
+  React.useEffect(() => {
+    (async () => {
+      const profile = await firestore().collection('Users').doc(authUser.uid).get();
+      setUser(profile.data());
+    })();
+  }, [user]);
 
   return (
     <HomeContextProvider>
       <HomeHeader />
       <Container style={{ flex: 1 }}>
-        {/* <Button title="Select 📑" onPress={handleDocumentSelection}>
-        Select an Image
-      </Button> */}
-
         <HomeContent />
-
         {/* <CustomBtn>Search</CustomBtn> */}
       </Container>
     </HomeContextProvider>
