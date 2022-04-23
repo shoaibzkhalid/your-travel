@@ -6,6 +6,7 @@ const profile = require('../../assets/icons/profile.png');
 const logout = require('../../assets/icons/logout.png');
 const events = require('../../assets/icons/event.png');
 const camera = require('../../assets/icons/camera.png');
+const marker = require('../../assets/icons/marker.png');
 
 export const ICONS = {
   flights,
@@ -16,4 +17,5 @@ export const ICONS = {
   logout,
   events,
   camera,
+  marker,
 };

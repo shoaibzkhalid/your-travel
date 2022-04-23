@@ -3,7 +3,8 @@ export const COLORS = {
   secondary: '#F8AC32',
 
   lightPrimary: '#E6F1F7',
-  error: 'red',
-
   white: '#fff',
+
+  error: 'red',
+  success: 'green',
 };
