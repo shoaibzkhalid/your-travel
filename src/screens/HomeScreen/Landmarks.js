@@ -91,7 +91,10 @@ const Landmarks = () => {
       <Heading>Detect a landmark</Heading>
 
       <Text>Take a photo of a landmark</Text>
-      <CustomBtn onPress={() => takePhoto('camera')} icon={'camera'}>
+      <CustomBtn
+        onPress={() => takePhoto('camera')}
+        icon={'camera'}
+        color={COLORS.secondary}>
         Launch Camera
       </CustomBtn>
 

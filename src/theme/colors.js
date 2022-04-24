@@ -7,4 +7,5 @@ export const COLORS = {
 
   error: 'red',
   success: 'green',
+  black: '#000',
 }

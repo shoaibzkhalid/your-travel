@@ -2,13 +2,11 @@ import Profile from '../screens/ProfileScreen/Profile'
 import { ICONS } from '../theme/icons'
 import { HomeStackScreen } from '../navigation/stacks'
 
-const placeHolderPhoto = `https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png`
-
+export const placeHolderPhoto = `https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png`
 export const GC_VISION_URL = `https://vision.googleapis.com/v1/images:annotate?key=`
-
-export const constants = {
-  placeHolderPhoto,
-}
+export const GEO_CODE_URL = `https://maps.googleapis.com/maps/api/geocode/json`
+export const GEO_NAMES_USERNAME = `shoaibzkhalid`
+export const COVID_API_URL = `https://disease.sh/v3/covid-19/countries`
 
 export const profileFields = [
   {

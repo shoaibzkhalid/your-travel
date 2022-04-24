@@ -17,12 +17,12 @@ const SignUpScreen = () => {
 
   const onRegisterPressed = async data => {
     setLoading(true)
-    const { name, password, email } = data
-    // const { name, password, email } = {
-    //   name: 'Sho',
-    //   password: '123456',
-    //   email: 'shoaibzkhalid@gmail.com',
-    // }
+    // const { name, password, email } = data
+    const { name, password, email } = {
+      name: 'Sho',
+      password: '123456',
+      email: 'shoaibzkhalid@gmail.com',
+    }
 
     try {
       await auth().createUserWithEmailAndPassword(email, password)

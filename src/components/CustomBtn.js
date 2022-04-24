@@ -7,9 +7,12 @@ import { SIZES } from '../theme/sizes'
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import { ICONS } from '../theme/icons'
 
-const CustomBtn = ({ children, onPress, isLoading = false, icon = null }) => {
+const CustomBtn = props => {
+  const { isLoading = false, icon = null, color = COLORS.primary } = props
+  const { children, onPress } = props
+
   return (
-    <Container disabled={false} onPress={onPress}>
+    <Container disabled={false} onPress={onPress} color={color}>
       {isLoading && isLoading !== null ? (
         <ActivityIndicator size={'small'} color={'white'} />
       ) : (
@@ -32,9 +35,11 @@ const Container = styled.TouchableOpacity`
   padding: 10px;
   margin: 10px 0px;
   height: ${hp(6.5)}px;
-  background-color: ${COLORS.primary};
+  background-color: ${props => props.color};
   border-radius: ${SIZES.borderRadius}px;
   justify-content: center;
+
+  min-width: 40%;
 `
 const BtnTextAndIcon = styled.View`
   flex-direction: row;
