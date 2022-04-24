@@ -6,21 +6,22 @@ import Landmarks from './Landmarks'
 import { Fragment } from 'react/cjs/react.production.min'
 import CustomBtn from '../../components/CustomBtn'
 import Events from './Events'
-import DestMap from './DestMap'
+import CustomMap from './CustomMap'
 import { useNavigation } from '@react-navigation/native'
 import { TextInput } from 'react-native-paper'
 import { COLORS } from '../../theme/colors'
 
 const HomeContent = () => {
-  const [homeIcon] = React.useContext(HomeContext)
+  const [homeContext] = React.useContext(HomeContext)
   const [destination, setDestination] = React.useState('')
   const { navigate } = useNavigation()
+  const { selectedIcon } = homeContext
 
-  switch (homeIcon) {
+  switch (selectedIcon) {
     case 'hotels':
       return (
         <View style={{ flex: 1 }}>
-          <LightBgTxt>Search {homeIcon}</LightBgTxt>
+          <LightBgTxt>Search {selectedIcon}</LightBgTxt>
 
           <TextInput
             autoCapitalize={'none'}
@@ -32,7 +33,7 @@ const HomeContent = () => {
             style={[{ backgroundColor: 'transparent', color: 'red' }]}
             onChangeText={text => setDestination(text)}
           />
-          <DestMap />
+          <CustomMap />
           <CustomBtn
             icon={'search'}
             onPress={() =>
@@ -48,7 +49,7 @@ const HomeContent = () => {
     case 'flights':
       return (
         <Fragment>
-          <LightBgTxt>Search {homeIcon}</LightBgTxt>
+          <LightBgTxt>Search {selectedIcon}</LightBgTxt>
 
           <TextInput
             autoCapitalize={'none'}
@@ -61,7 +62,7 @@ const HomeContent = () => {
             onChangeText={text => setDestination(text)}
           />
 
-          <DestMap />
+          <CustomMap />
           <CustomBtn icon={'search'} onPress={() => navigate('Search')}>
             Search
           </CustomBtn>

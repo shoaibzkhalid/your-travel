@@ -1,25 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import GetLocation from 'react-native-get-location';
+import React, { useEffect, useContext } from 'react'
+import GetLocation from 'react-native-get-location'
+import { HomeContext } from '../state/homeContext'
 
 export const useLocation = () => {
-  const [location, setLocation] = useState(null);
+  const [home, setLocation] = useContext(HomeContext)
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       const location = await GetLocation.getCurrentPosition({
-        enableHighAccuracy: true,
+        // Setting this to true makes location null on Android Emulator
+        enableHighAccuracy: false,
         timeout: 15000,
-      });
-      setLocation(location);
-    })();
-  }, []);
+      })
+      if (!location) return
 
-  const coords = {
-    latitude: location?.latitude,
-    longitude: location?.longitude,
-    latitudeDelta: 0.0222,
-    longitudeDelta: 0.0121,
-  };
-
-  return { location, coords };
-};
+      // console.log('location effect', location)
+      setLocation({ ...home, location })
+    })()
+  }, [])
+}

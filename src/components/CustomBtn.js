@@ -1,6 +1,6 @@
 import { View, Text, Image } from 'react-native'
 import React from 'react'
-import { ActivityIndicator, Button } from 'react-native-paper'
+import { ActivityIndicator } from 'react-native-paper'
 import styled from 'styled-components/native'
 import { COLORS } from '../theme/colors'
 import { SIZES } from '../theme/sizes'
@@ -13,16 +13,16 @@ const CustomBtn = ({ children, onPress, isLoading = false, icon = null }) => {
       {isLoading && isLoading !== null ? (
         <ActivityIndicator size={'small'} color={'white'} />
       ) : (
-        <View
-          style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'row',
-            flex: 1,
-          }}>
-          {icon && <Image source={ICONS[icon]} style={{ width: 20, height: 20 }} />}
-          <Button color={COLORS.white}>{children}</Button>
-        </View>
+        <BtnTextAndIcon>
+          {icon && (
+            <View style={{ paddingRight: 10 }}>
+              <Image source={ICONS[icon]} style={{ width: 20, height: 20 }} />
+            </View>
+          )}
+          <View style={{ paddingLeft: icon ? 10 : 0 }}>
+            <Text style={{ color: COLORS.white }}>{children}</Text>
+          </View>
+        </BtnTextAndIcon>
       )}
     </Container>
   )
@@ -34,6 +34,11 @@ const Container = styled.TouchableOpacity`
   height: ${hp(6.5)}px;
   background-color: ${COLORS.primary};
   border-radius: ${SIZES.borderRadius}px;
+  justify-content: center;
+`
+const BtnTextAndIcon = styled.View`
+  flex-direction: row;
+  align-items: center;
   justify-content: center;
 `
 

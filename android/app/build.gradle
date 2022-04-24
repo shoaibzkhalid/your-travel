@@ -3,6 +3,9 @@ apply plugin: "com.android.application"
 // FIREBASE EDIT
 apply plugin: 'com.google.gms.google-services'
 
+// react-native-config edit
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+
 import com.android.build.OutputFile
 
 /**
@@ -194,6 +197,9 @@ android {
 dependencies {
     // FIREBASE EDIT: Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:29.3.1')
+
+    // react-native-config edit
+    implementation project(':react-native-config')
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion

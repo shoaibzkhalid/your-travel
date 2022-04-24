@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { View } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import SignInScreen from '../screens/SignInScreen'
@@ -9,6 +10,7 @@ import TabNavigation from './TabNavigation'
 import auth from '@react-native-firebase/auth'
 import Toast from 'react-native-toast-message'
 import { showSuccessToast, toastConfig } from '../util'
+import { ActivityIndicator } from 'react-native-paper'
 
 const Stack = createNativeStackNavigator()
 
@@ -42,6 +44,14 @@ const Navigation = () => {
     })
     return subscriber // unsubscribe on unmount
   }, [user?.emailVerified])
+
+  if (user === undefined) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center' }}>
+        <ActivityIndicator />
+      </View>
+    )
+  }
 
   // console.log('check here', user, userVerified)
 

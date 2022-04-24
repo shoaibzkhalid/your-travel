@@ -21,11 +21,9 @@ const Home = () => {
   return (
     <HomeContextProvider>
       <HomeHeader />
-      {/* <DestMap /> */}
       <Container>
         <HomeContent />
       </Container>
-      {/* <CustomBtn>Search</CustomBtn> */}
     </HomeContextProvider>
   )
 }

@@ -5,8 +5,8 @@ import CustomBtn from '../../components/CustomBtn'
 import styled from 'styled-components/native'
 import { COLORS } from '../../theme/colors'
 import Config from 'react-native-config'
-import { ActivityIndicator, IconButton } from 'react-native-paper'
-import { ICONS } from '../../theme/icons'
+import { ActivityIndicator } from 'react-native-paper'
+import { GC_VISION_URL } from '../../config/constants'
 
 const Landmarks = () => {
   const [image, setImage] = React.useState(null)
@@ -46,35 +46,30 @@ const Landmarks = () => {
       }
 
       const selectedImage = result.assets[0]
-      // console.log('selectedImage', result);
-
       setImage(selectedImage.uri)
 
-      let body = JSON.stringify({
-        requests: [
-          {
-            features: [{ type: 'LANDMARK_DETECTION', maxResults: 5 }],
-            image: {
-              content: selectedImage.base64,
+      let res = await fetch(`${GC_VISION_URL}${Config.GC_API_KEY}`, {
+        method: 'POST',
+        body: JSON.stringify({
+          requests: [
+            {
+              features: [{ type: 'LANDMARK_DETECTION', maxResults: 5 }],
+              image: {
+                content: selectedImage.base64,
+              },
             },
-          },
-        ],
+          ],
+        }),
       })
-
-      let res = await fetch(
-        `https://vision.googleapis.com/v1/images:annotate?key=${Config.GC_API_KEY}`,
-        {
-          method: 'POST',
-          body,
-        },
-      )
 
       if (!result) {
         return
       }
 
       let responseJson = await res.json()
-      // console.log('res', responseJson, responseJson.responses[0]);
+      // console.log('selectedImage', responseJson)
+
+      console.log('res', responseJson, responseJson.responses[0])
 
       const checkLandmark = Object.keys(responseJson.responses[0]).length === 0
 
