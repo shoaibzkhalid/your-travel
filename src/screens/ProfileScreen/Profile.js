@@ -8,35 +8,38 @@ import CustomBtn from '../../components/CustomBtn'
 import firestore from '@react-native-firebase/firestore'
 import { profileFields } from '../../config/constants'
 import { UserContext } from '../../state/userContext'
-import { showErrorToast, showSuccessToast, showToast } from '../../util'
-import HomeHeader from '../HomeScreen/HomeHeader'
+import { showErrorToast, showSuccessToast } from '../../util'
 import { COLORS } from '../../theme/colors'
-import Heading from '../../components/Heading'
 import LightBgHeading from '../../components/LightBgHeading'
 
 const Profile = () => {
   const user = auth().currentUser
-  const [profile] = React.useContext(UserContext)
+  const [context] = React.useContext(UserContext)
+
+  const profile = context.databaseUser
 
   const [isLoading, setLoading] = React.useState(false)
   const profileFieldKeys = profileFields.map(f => f.name)
   const { control, handleSubmit, setValue } = useForm()
 
-  console.log('check profile', user)
-
   React.useEffect(() => {
     if (profile) {
-      profileFieldKeys.map(key => setValue(key, profile[key] ?? ''))
+      profileFieldKeys.map(key => {
+        setValue(key, profile[key] ?? '')
+      })
       return
     }
 
-    profileFieldKeys.map(key => setValue(key, user[key] ?? ''))
-  }, [user])
+    profileFieldKeys.map(key => {
+      setValue(key, user[key] ?? '')
+    })
+  }, [])
 
   const updateProfile = async data => {
+    // console.log('data', data)
+
     setLoading(true)
     await auth().currentUser.updateProfile({ emailVerified: true })
-    console.log('data', auth().currentUser)
 
     try {
       await firestore().collection('Users').doc(user.uid).set({
@@ -45,9 +48,7 @@ const Profile = () => {
         phoneNumber: data.phoneNumber,
         email: data.email,
       })
-
       showSuccessToast('Profile updated successfully')
-
       setLoading(false)
     } catch (error) {
       showErrorToast('Error updating profile')
@@ -55,11 +56,21 @@ const Profile = () => {
     }
   }
 
+  console.log(
+    'profile user11',
+    // field['email'],
+    // !!profile && !!profile['email'] ? profile['email'] : user['email'],
+  )
+
+  // !!profile && !!profile[field.name] ? profile[field.name] :
+
   return (
     <>
       <Header>
         <LightBgHeading size={30}>
-          {profile ? profile['displayName'] : user['displayName']}
+          {profile && profile['displayName']
+            ? profile['displayName']
+            : user['displayName']}
         </LightBgHeading>
         <ProfileAvatar />
       </Header>
@@ -70,7 +81,9 @@ const Profile = () => {
             disabled={field.name === 'email'}
             name={field.name}
             placeholder={field.placeholder}
-            defaultValue={profile ? profile[field.name] : user[field.name]}
+            defaultValue={
+              profile && profile[field.name] ? profile[field.name] : user[field.name]
+            }
             control={control}
           />
         ))}

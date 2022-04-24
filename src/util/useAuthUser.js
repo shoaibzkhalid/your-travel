@@ -2,17 +2,23 @@ import React from 'react'
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import { UserContext } from '../state/userContext'
+import { showSuccessToast } from '.'
 
 export const useAuthUser = () => {
-  const [profile, setProfile] = React.useContext(UserContext)
+  const [context, setProfile] = React.useContext(UserContext)
   const authUser = auth().currentUser
   const [user, setUser] = React.useState(undefined)
   const [userVerified, setUserVerified] = React.useState(user?.emailVerified)
 
   React.useEffect(() => {
     ;(async () => {
-      const profile = await firestore().collection('Users').doc(authUser.uid).get()
-      setProfile(profile.data())
+      const storedUser = await firestore().collection('Users').doc(authUser.uid).get()
+      // console.log('data authuser', storedUser.data())
+
+      setProfile({
+        ...context,
+        databaseUser: storedUser.data(),
+      })
     })()
 
     const subscriberToAuth = auth().onAuthStateChanged(user => {

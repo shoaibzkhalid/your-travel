@@ -11,6 +11,7 @@ import Toast from 'react-native-toast-message'
 import { toastConfig } from '../util'
 import { ActivityIndicator } from 'react-native-paper'
 import { useAuthUser } from '../util/useAuthUser'
+import { UserContextProvider } from '../state/userContext'
 
 const Stack = createNativeStackNavigator()
 
@@ -28,7 +29,7 @@ const Navigation = () => {
   // console.log('check here', user, userVerified)
 
   return (
-    <>
+    <UserContextProvider>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           {userVerified ? (
@@ -46,7 +47,7 @@ const Navigation = () => {
         </Stack.Navigator>
       </NavigationContainer>
       <Toast config={toastConfig} />
-    </>
+    </UserContextProvider>
   )
 }
 
