@@ -8,6 +8,9 @@ import { ICONS } from '../../theme/icons'
 const ConfirmEmailScreen = () => {
   const { navigate } = useNavigation()
 
+  // Confirm email screen when user is not logged
+  // in but has created an account
+
   return (
     <>
       <HomeHeader />

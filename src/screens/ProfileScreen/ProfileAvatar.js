@@ -8,29 +8,31 @@ import storage from '@react-native-firebase/storage'
 import { launchImageLibrary } from 'react-native-image-picker'
 import auth from '@react-native-firebase/auth'
 import { placeHolderPhoto } from '../../config/constants'
-import { set } from 'react-hook-form'
 
 export const ProfileAvatar = () => {
   // SET CURRENT PHOTO
   const [isLoading, setLoading] = React.useState(false)
-
   const user = auth().currentUser
-
   const [userPhoto, setUserPhoto] = React.useState(user.photoURL ?? placeHolderPhoto)
 
   const uploadPhoto = async () => {
     try {
       setLoading(true)
+      // launching Image Library
       const result = await launchImageLibrary({ includeBase64: true })
+      // If user cancels the image selection
       if (result.didCancel) {
         setLoading(false)
         return
       }
 
       const photo = result.assets[0]
+      // getting reference to the storage
       const ref = await storage().ref(photo.fileName)
+      // uploading image to storage
       await ref.putFile(photo.uri)
       const url = await ref.getDownloadURL()
+      // updating user photo to firebase
       await auth().currentUser.updateProfile({ photoURL: url })
       setUserPhoto(photo.uri)
       setLoading(false)

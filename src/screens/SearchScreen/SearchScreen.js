@@ -8,12 +8,11 @@ import { ICONS } from '../../theme/icons'
 import { useNavigation, useRoute } from '@react-navigation/native'
 
 const SearchScreen = () => {
-  const { goBack } = useNavigation()
   const route = useRoute()
+  const { goBack } = useNavigation()
   const { destination } = route.params
 
-  console.log('route', destination)
-
+  // Screen which shows search results
   return (
     <>
       <Header>

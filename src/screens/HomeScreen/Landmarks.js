@@ -12,9 +12,10 @@ const Landmarks = () => {
   const [image, setImage] = React.useState(null)
   const [error, setError] = React.useState(null)
   const [isLoading, setLoading] = React.useState(false)
-
   const [landmark, setLandmark] = React.useState(null)
 
+  // useCamera to check if user selected
+  // Gallery option or Camera option
   const takePhoto = React.useCallback(async useCamera => {
     let result
     setLoading(true)
@@ -29,25 +30,30 @@ const Landmarks = () => {
         result = await launchImageLibrary({ includeBase64: true })
       }
 
+      // If user cancels the image selection
       if (result.didCancel) {
         setLoading(false)
         return
       }
 
+      // If something goes wrong
       if (result.errorCode) {
         setLoading(false)
         Alert.alert('Error', result.errorCode)
         return
       }
 
+      // if error occurs -- no image selected
       if (!result.assets.length) {
         setLoading(false)
         Alert.alert('Error selecting an image')
       }
 
       const selectedImage = result.assets[0]
+      // setting image uri to state
       setImage(selectedImage.uri)
 
+      // calling Google VISION API with api key as parameter
       let res = await fetch(`${GC_VISION_URL}${Config.GC_API_KEY}`, {
         method: 'POST',
         body: JSON.stringify({
@@ -62,22 +68,21 @@ const Landmarks = () => {
         }),
       })
 
-      if (!result) {
-        return
-      }
+      // return if no response
+      if (!result) return
 
+      // extracting response from Google Vision API
       let responseJson = await res.json()
-      // console.log('selectedImage', responseJson)
+      // console.log('res', responseJson, responseJson.responses[0])
 
-      console.log('res', responseJson, responseJson.responses[0])
-
+      // if no landmark detected
       const checkLandmark = Object.keys(responseJson.responses[0]).length === 0
-
       if (checkLandmark) {
         setLoading(false)
         setError('Could not detect any landmark')
       }
 
+      // setting landmark to state
       const temp = responseJson.responses[0].landmarkAnnotations[0].description
       setLandmark(temp)
       setLoading(false)

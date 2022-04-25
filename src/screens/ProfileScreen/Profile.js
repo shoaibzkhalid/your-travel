@@ -15,9 +15,7 @@ import LightBgHeading from '../../components/LightBgHeading'
 const Profile = () => {
   const user = auth().currentUser
   const [context] = React.useContext(UserContext)
-
   const profile = context.databaseUser
-
   const [isLoading, setLoading] = React.useState(false)
   const profileFieldKeys = profileFields.map(f => f.name)
   const { control, handleSubmit, setValue } = useForm()
@@ -55,14 +53,6 @@ const Profile = () => {
       console.log('error updating profile', error)
     }
   }
-
-  console.log(
-    'profile user11',
-    // field['email'],
-    // !!profile && !!profile['email'] ? profile['email'] : user['email'],
-  )
-
-  // !!profile && !!profile[field.name] ? profile[field.name] :
 
   return (
     <>

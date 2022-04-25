@@ -12,17 +12,22 @@ export const useAuthUser = () => {
 
   React.useEffect(() => {
     ;(async () => {
+      // getting user data from firestore
       const storedUser = await firestore().collection('Users').doc(authUser.uid).get()
-      // console.log('data authuser', storedUser.data())
 
+      // setting user data to context
       setProfile({
         ...context,
         databaseUser: storedUser.data(),
       })
     })()
 
+    // subscribing to user data changes
     const subscriberToAuth = auth().onAuthStateChanged(user => {
-      // console.log('check authchange', user, user?.emailVerified)
+      // console.log('check ', user, user?.emailVerified)
+
+      // if user is not verified
+      // show prompt to verify email
       if (user && !user?.emailVerified) {
         showSuccessToast('Please verify your email')
       }
@@ -30,6 +35,7 @@ export const useAuthUser = () => {
       setUser(user)
     })
 
+    // subscribing to user data changes
     const subscriberToUser = auth().onUserChanged(user => {
       if (!user) {
         setUserVerified(false)
@@ -39,6 +45,7 @@ export const useAuthUser = () => {
       }
     })
 
+    // unsubscribing from user data changes
     return () => {
       subscriberToAuth()
       subscriberToUser()

@@ -2,9 +2,10 @@ import Toast, { BaseToast } from 'react-native-toast-message'
 import React from 'react'
 import axios from 'axios'
 import { COLORS } from '../theme/colors'
-import { GEO_CODE_URL, GEO_NAMES_URL, GEO_NAMES_USERNAME } from '../config/constants'
+import { GEO_CODE_URL } from '../config/constants'
 import Config from 'react-native-config'
 
+// Toast customizations
 const baseToast = (props, color) => (
   <BaseToast
     {...props}
@@ -14,11 +15,13 @@ const baseToast = (props, color) => (
   />
 )
 
+// Toast config
 export const toastConfig = {
   success: props => baseToast(props, COLORS.secondary),
   error: props => baseToast(props, COLORS.error),
 }
 
+// Helper function to show toast messages
 export const showSuccessToast = message => {
   Toast.show({
     type: 'success',
@@ -27,6 +30,7 @@ export const showSuccessToast = message => {
   })
 }
 
+// Helper function to show error toast
 export const showErrorToast = message => {
   Toast.show({
     type: 'error',
@@ -39,7 +43,7 @@ export const showErrorToast = message => {
 export const getCountryFromLatLng = async (lat, lng) => {
   if (!lat) return
   const latlng = `?latlng=${lat},${lng}`
-  const key = `&key=${Config.GOOGLE_MAPS_API_KEY}`
+  const key = `&key=${Config.GC_API_KEY}`
 
   try {
     const result = await axios.get(GEO_CODE_URL + latlng + key + '&result_type=country')
@@ -51,11 +55,12 @@ export const getCountryFromLatLng = async (lat, lng) => {
   }
 }
 
+// Getting latitude and longitude from address
 export const getLatlngFromAddress = async address => {
   if (!address) return
   // console.log('address', address)
 
-  const key = `&key=${Config.GOOGLE_MAPS_API_KEY}`
+  const key = `&key=${Config.GC_API_KEY}`
   const pAddress = `?address=${address}`
 
   try {
@@ -71,6 +76,7 @@ export const getLatlngFromAddress = async address => {
   }
 }
 
+// For number formatting in thousands and millions
 export const numFormatter = num => {
   if (num > 999 && num < 1000000) {
     return (num / 1000).toFixed(1) + 'K' // convert to K for number from > 1000 < 1 million

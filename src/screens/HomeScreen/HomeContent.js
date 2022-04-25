@@ -3,7 +3,6 @@ import { View } from 'react-native'
 import { HomeContext } from '../../state/homeContext'
 import { LightBgTxt } from '../../components/LightBgTxt'
 import Landmarks from './Landmarks'
-import { Fragment } from 'react/cjs/react.production.min'
 import CustomBtn from '../../components/CustomBtn'
 import Events from './Events'
 import CustomMap from './CustomMap'
@@ -13,7 +12,6 @@ import { COLORS } from '../../theme/colors'
 import { useLocation } from '../../util/useLocation'
 import CovidCards from './CovidCards'
 import styled from 'styled-components/native'
-import { ICONS } from '../../theme/icons'
 import { DarkBgTxt } from '../../components/DarkBgTxt'
 
 const HomeContent = () => {
@@ -24,9 +22,9 @@ const HomeContent = () => {
   const { navigate } = useNavigation()
   const { selectedIcon } = homeContext
   const covidData = homeContext.covidDataOfUserCountry
-
   // console.log('check data', homeContext.covidDataOfUserCountry)
 
+  // Helper function to switch content on button icon press
   const content = () => {
     return (
       <View style={{ flex: 1 }}>

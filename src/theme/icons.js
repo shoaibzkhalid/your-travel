@@ -1,3 +1,5 @@
+// ICONS used in the app
+
 const flights = require('../../assets/icons/flight.png')
 const hotels = require('../../assets/icons/hotel.png')
 const landmarks = require('../../assets/icons/landmark.png')

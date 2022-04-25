@@ -15,16 +15,17 @@ const SignInScreen = () => {
   const { control, handleSubmit } = useForm()
 
   const onSignInPressed = async data => {
-    // const { email, password } = data
     setLoading(true)
-
-    const { password, email } = {
-      email: 'shoaibzkhalid@gmail.com',
-      password: '123456',
-    }
+    const { email, password } = data
+    // const { password, email } = {
+    //   email: 'shoaibzkhalid@gmail.com',
+    //   password: '123456',
+    // }
 
     try {
+      // sign in with email and password
       await auth().signInWithEmailAndPassword(email, password)
+      // getting email verification status
       const emailVerified = auth().currentUser.emailVerified
       setLoading(false)
 
@@ -48,24 +49,10 @@ const SignInScreen = () => {
     setLoading(false)
   }
 
-  const onForgotPasswordPressed = () => {
-    navigation.navigate('ForgotPassword')
-  }
-
-  const onSignUpPress = () => {
-    navigation.navigate('SignUp')
-  }
-
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <HomeHeader subText={'Login to see your saved trips and book your next trip!'} />
       <View style={styles.root}>
-        {/* <Image
-          source={Logo}
-          style={[styles.logo, { height: height * 0.3 }]}
-          resizeMode="contain"
-        /> */}
-
         <CustomInput
           name="email"
           placeholder="Email"
@@ -93,14 +80,14 @@ const SignInScreen = () => {
 
         <CustomButton
           text="Forgot password?"
-          onPress={onForgotPasswordPressed}
+          onPress={() => navigation.navigate('ForgotPassword')}
           type="TERTIARY"
           isLoading={null}
         />
 
         <CustomButton
           text="Don't have an account? Create one"
-          onPress={onSignUpPress}
+          onPress={() => navigation.navigate('SignUp')}
           type="TERTIARY"
           isLoading={null}
         />

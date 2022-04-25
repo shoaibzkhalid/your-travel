@@ -5,8 +5,9 @@ const defaultValue = {
   databaseUser: null,
 }
 
-export const UserContext = createContext([defaultValue, v => {}])
+// Context (state) of User
 
+export const UserContext = createContext([defaultValue, v => {}])
 export const UserContextProvider = props => {
   const [state, setState] = useState(defaultValue)
 

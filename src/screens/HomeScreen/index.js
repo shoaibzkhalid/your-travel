@@ -6,7 +6,9 @@ import HomeContent from './HomeContent'
 import { useAuthUser } from '../../util/useAuthUser'
 
 const Home = () => {
+  // Getting auth user
   useAuthUser()
+  // Root home screen
   return (
     <HomeContextProvider>
       <HomeHeader />

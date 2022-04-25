@@ -16,8 +16,10 @@ import { UserContextProvider } from '../state/userContext'
 const Stack = createNativeStackNavigator()
 
 const Navigation = () => {
+  // getting authentication state
   const { userVerified, user } = useAuthUser()
 
+  // if user is not authenticated -- loading
   if (user === undefined) {
     return (
       <View style={{ flex: 1, justifyContent: 'center' }}>
@@ -26,8 +28,7 @@ const Navigation = () => {
     )
   }
 
-  // console.log('check here', user, userVerified)
-
+  // Screens to be rendered based on authentication state
   return (
     <UserContextProvider>
       <NavigationContainer>

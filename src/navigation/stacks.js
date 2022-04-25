@@ -3,6 +3,7 @@ import SearchScreen from '../screens/SearchScreen/SearchScreen'
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
+// Home stacks -- HomeScreen and SearchScreen
 export const HomeStackScreen = () => {
   const HomeStack = createNativeStackNavigator()
 

@@ -8,8 +8,6 @@ const CustomInput = props => {
   const { control, name, rules = {}, keyboardType = 'default' } = props
   const { placeholder, defaultValue = '', secureTextEntry, disabled = false } = props
 
-  console.log('props', props)
-
   return (
     <Controller
       control={control}

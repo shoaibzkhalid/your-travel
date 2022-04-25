@@ -17,17 +17,21 @@ const SignUpScreen = () => {
 
   const onRegisterPressed = async data => {
     setLoading(true)
-    // const { name, password, email } = data
-    const { name, password, email } = {
-      name: 'Sho',
-      password: '123456',
-      email: 'shoaibzkhalid@gmail.com',
-    }
+    const { name, password, email } = data
+    // const { name, password, email } = {
+    //   name: 'Sho',
+    //   password: '123456',
+    //   email: 'shoaibzkhalid@gmail.com',
+    // }
 
     try {
+      // creating user with email and password
       await auth().createUserWithEmailAndPassword(email, password)
+      // updating user profile with name
       await auth().currentUser.updateProfile({ displayName: name })
+      // sending email verification
       await auth().currentUser.sendEmailVerification()
+      // navigating to confirmation screen
       navigation.navigate('ConfirmEmail')
     } catch (error) {
       setLoading(false)
@@ -39,8 +43,6 @@ const SignUpScreen = () => {
       if (error.code === 'auth/invalid-email') {
         Alert.alert('That email address is invalid!')
       }
-
-      // Alert.alert('Oops', error);
     }
   }
 

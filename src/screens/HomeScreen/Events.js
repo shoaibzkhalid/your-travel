@@ -1,14 +1,13 @@
-import { View } from 'react-native';
-import React from 'react';
-import { Calendar } from 'react-native-calendars';
-import Heading from '../../components/Heading';
+import { View } from 'react-native'
+import React from 'react'
+import { Calendar } from 'react-native-calendars'
+import Heading from '../../components/Heading'
 
 const Events = () => {
-  const [selectedDate, setSelectedDate] = React.useState('');
+  const [selectedDate, setSelectedDate] = React.useState('')
 
-  const getMarkedDates = date => {
-    return { [date]: { selected: true, selectedColor: 'blue' } };
-  };
+  // Dates that are marked on pressed
+  const getMarkedDates = date => ({ [date]: { selected: true, selectedColor: 'blue' } })
 
   return (
     <View>
@@ -21,7 +20,7 @@ const Events = () => {
         markedDates={getMarkedDates(selectedDate)}
       />
     </View>
-  );
-};
+  )
+}
 
-export default Events;
+export default Events

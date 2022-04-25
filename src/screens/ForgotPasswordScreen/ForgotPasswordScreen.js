@@ -1,27 +1,25 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native';
-import CustomInput from '../../components/CustomInput';
-import CustomButton from '../../components/CustomButton';
-import { useNavigation } from '@react-navigation/core';
-import { useForm } from 'react-hook-form';
-import auth from '@react-native-firebase/auth';
+import React from 'react'
+import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native'
+import CustomInput from '../../components/CustomInput'
+import CustomButton from '../../components/CustomButton'
+import { useNavigation } from '@react-navigation/core'
+import { useForm } from 'react-hook-form'
+import auth from '@react-native-firebase/auth'
 
 const ForgotPasswordScreen = () => {
-  const { control, handleSubmit } = useForm();
-  const navigation = useNavigation();
+  const { control, handleSubmit } = useForm()
+  const navigation = useNavigation()
 
   const onSendPressed = async data => {
     try {
-      await auth().sendPasswordResetEmail(data.email);
-      navigation.navigate('SignIn');
+      // Sending password reset email to user
+      // on success, navigate to SignInScreen
+      await auth().sendPasswordResetEmail(data.email)
+      navigation.navigate('SignIn')
     } catch (e) {
-      Alert.alert('Oops', e.message);
+      Alert.alert('Oops', e.message)
     }
-  };
-
-  const onSignInPress = () => {
-    navigation.navigate('SignIn');
-  };
+  }
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -39,11 +37,15 @@ const ForgotPasswordScreen = () => {
 
         <CustomButton text="Send" onPress={handleSubmit(onSendPressed)} />
 
-        <CustomButton text="Back to Sign in" onPress={onSignInPress} type="TERTIARY" />
+        <CustomButton
+          text="Back to Sign in"
+          onPress={() => navigation.navigate('SignIn')}
+          type="TERTIARY"
+        />
       </View>
     </ScrollView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   root: {
@@ -63,6 +65,6 @@ const styles = StyleSheet.create({
   link: {
     color: '#FDB075',
   },
-});
+})
 
-export default ForgotPasswordScreen;
+export default ForgotPasswordScreen

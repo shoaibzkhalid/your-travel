@@ -8,6 +8,7 @@ import { numFormatter } from '../../util'
 const CovidCards = ({ data }) => {
   const [home] = React.useContext(HomeContext)
 
+  // Covid Data Ui on HomeScreen
   return (
     <>
       <StyledHeading>Covid Stats of {home.userCountry}</StyledHeading>
@@ -40,10 +41,6 @@ const StyledHeading = styled.Text`
 
 const CardViewContainer = styled.View`
   flex-direction: row;
-  /* position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0; */
 `
 
 const CardTextFigure = styled.Text`

@@ -1,7 +1,7 @@
-import React from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
-import { ActivityIndicator } from 'react-native-paper';
-import { COLORS } from '../../theme/colors';
+import React from 'react'
+import { Text, StyleSheet, Pressable } from 'react-native'
+import { ActivityIndicator } from 'react-native-paper'
+import { COLORS } from '../../theme/colors'
 
 const CustomButton = ({
   onPress,
@@ -40,8 +40,8 @@ const CustomButton = ({
         </Text>
       )}
     </Pressable>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -75,6 +75,6 @@ const styles = StyleSheet.create({
   text_TERTIARY: {
     color: 'gray',
   },
-});
+})
 
-export default CustomButton;
+export default CustomButton

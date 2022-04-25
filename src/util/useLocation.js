@@ -3,35 +3,37 @@ import GetLocation from 'react-native-get-location'
 import { getCountryFromLatLng, getLatlngFromAddress } from '.'
 import { HomeContext } from '../state/homeContext'
 
+const deltaCoordinates = {
+  latitudeDelta: 0.0922,
+  longitudeDelta: 0.0421,
+}
+
 export const useLocation = () => {
   const [home, setLocation] = useContext(HomeContext)
   const [destination, setDestination] = React.useState('')
-  // console.log('useLocation', home.covidDataOfUserCountry)
 
+  // side effect when destination changes
   useEffect(() => {
     ;(async () => {
+      // Getting destination location and country from address
       const { destinationLocation, userCountry } = await getLatlngFromAddress(destination)
-      // console.log('Check', destinationLocation)
-
-      const userLocation = destinationLocation ?? location
-
-      console.log('check', destinationLocation, userCountry)
-
       if (!destinationLocation) return
+      // console.log('check', destinationLocation, userCountry)
 
+      // setting destination location and country to context
       setLocation({
         ...home,
         userCountry,
         destinationLocation: {
           latitude: destinationLocation?.lat,
           longitude: destinationLocation?.lng,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
+          ...deltaCoordinates,
         },
       })
     })()
   }, [destination])
 
+  // user location effect
   useEffect(() => {
     ;(async () => {
       const location = await GetLocation.getCurrentPosition({
@@ -40,37 +42,30 @@ export const useLocation = () => {
         timeout: 15000,
       })
 
-      const destinationLocation = home.destinationLocation
       const userLocation = location
 
+      // getting user country from latitude and longitude
       const userCountry = await getCountryFromLatLng(
         userLocation?.latitude,
         userLocation?.longitude,
       )
 
       // console.log('check', userCountry)
-
       if (!location) return
       setLocation({
         ...home,
         location: {
           latitude: location?.latitude,
           longitude: location?.longitude,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
+          ...deltaCoordinates,
         },
         userCountry,
       })
     })()
   }, [])
 
-  // useEffect(() => {
-  //   ;(async () => {})()
-  // }, [destination])
-
-  const handleDestination = destination => {
-    setDestination(destination)
-  }
+  // helper function to set destination
+  const handleDestination = destination => setDestination(destination)
 
   const setNewDestination = destinationLocation => {
     setLocation({

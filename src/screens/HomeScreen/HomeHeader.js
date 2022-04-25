@@ -13,8 +13,10 @@ const HomeHeader = ({ subText }) => {
   const route = useRoute()
   const [homeContext, setHomeIcon] = useContext(HomeContext)
   const icons = ['hotels', 'flights', 'landmarks', 'events']
+  // Getting selected icon from state
   const selectedIcon = homeContext.selectedIcon
 
+  // Top Header on home screen
   return (
     <Container>
       <HeaderText>MyTravels.com</HeaderText>

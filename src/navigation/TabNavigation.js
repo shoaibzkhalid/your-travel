@@ -8,9 +8,10 @@ import { heightPercentageToDP as hp } from 'react-native-responsive-screen'
 
 const Tab = createBottomTabNavigator()
 
-const TabNavigation = ({ navigation }) => {
+const TabNavigation = () => {
   const user = auth().currentUser
 
+  /// Bottom tabs -- Home, Profile, logout
   return (
     <Tab.Navigator
       screenOptions={{
@@ -21,10 +22,7 @@ const TabNavigation = ({ navigation }) => {
         tabBarItemStyle: {
           marginTop: 10,
         },
-      }}
-
-      // initialRouteName="Profile"
-    >
+      }}>
       {bottomTabs.map(tab => (
         <Tab.Screen
           key={tab.name}
@@ -72,6 +70,7 @@ const TabNavigation = ({ navigation }) => {
           }}
           listeners={{
             tabPress: e => {
+              // Signing out user
               if (tab.name !== 'Logout') return
               e.preventDefault()
               auth().signOut()

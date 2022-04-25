@@ -8,8 +8,8 @@ import { useLocation } from '../../util/useLocation'
 import { useCovidData } from '../../util/useCovidData'
 
 const CustomMap = () => {
-  const { setNewDestination } = useLocation()
   useCovidData()
+  const { setNewDestination } = useLocation()
   const [homeContext] = React.useContext(HomeContext)
   const { location } = homeContext
 
@@ -20,6 +20,7 @@ const CustomMap = () => {
       {!location ? (
         <ActivityIndicator />
       ) : (
+        // Google Map with Marker
         <MapView
           style={{ flex: 1 }}
           initialRegion={location}

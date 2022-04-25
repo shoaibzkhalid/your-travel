@@ -1,6 +1,8 @@
 import React from 'react'
 import { useState, createContext } from 'react'
 
+// Context (state) of HomeContext -- location and destination etc
+
 const defaultValue = {
   selectedIcon: 'hotels',
   location: null,
