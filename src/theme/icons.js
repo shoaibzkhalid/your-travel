@@ -13,8 +13,10 @@ const gallery = require('../../assets/icons/gallery.png')
 const back = require('../../assets/icons/back.png')
 const search = require('../../assets/icons/search.png')
 const mail = require('../../assets/icons/mail.png')
+const save = require('../../assets/icons/save.png')
 
 export const ICONS = {
+  save,
   mail,
   search,
   flights,

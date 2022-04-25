@@ -1,4 +1,5 @@
 import React from 'react'
+import { View } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
 import { Fragment } from 'react/cjs/react.production.min'
 import { ICONS } from '../../theme/icons'
@@ -18,7 +19,9 @@ const CustomMap = () => {
   return (
     <Fragment>
       {!location ? (
-        <ActivityIndicator />
+        <View style={{ flex: 1, justifyContent: 'center' }}>
+          <ActivityIndicator />
+        </View>
       ) : (
         // Google Map with Marker
         <MapView

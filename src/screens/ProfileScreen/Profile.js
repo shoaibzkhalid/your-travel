@@ -78,7 +78,10 @@ const Profile = () => {
           />
         ))}
 
-        <CustomBtn onPress={handleSubmit(updateProfile)} isLoading={isLoading}>
+        <CustomBtn
+          onPress={handleSubmit(updateProfile)}
+          isLoading={isLoading}
+          icon="save">
           Update
         </CustomBtn>
       </Container>
