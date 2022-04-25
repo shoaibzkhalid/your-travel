@@ -12,7 +12,7 @@ const CustomInput = props => {
     <Controller
       control={control}
       name={name}
-      // rules={rules}
+      rules={rules}
       render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => (
         <>
           <View
