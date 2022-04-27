@@ -9,6 +9,13 @@ export const GEO_CODE_URL = `https://maps.googleapis.com/maps/api/geocode/json`
 export const GEO_NAMES_USERNAME = `shoaibzkhalid`
 export const COVID_API_URL = `https://disease.sh/v3/covid-19/countries`
 
+export const placeholderLocation = {
+  latitude: 37.78825,
+  longitude: -122.4324,
+  latitudeDelta: 0.0922,
+  longitudeDelta: 0.0421,
+}
+
 // Constants lists in the app
 export const profileFields = [
   {

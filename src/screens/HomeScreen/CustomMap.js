@@ -7,14 +7,17 @@ import { ActivityIndicator } from 'react-native-paper'
 import { HomeContext } from '../../state/homeContext'
 import { useLocation } from '../../util/useLocation'
 import { useCovidData } from '../../util/useCovidData'
+import { placeholderLocation } from '../../config/constants'
 
 const CustomMap = () => {
   useCovidData()
   const { setNewDestination } = useLocation()
   const [homeContext] = React.useContext(HomeContext)
   const { location } = homeContext
-
   const destLocation = homeContext.destinationLocation
+  const locationNotGranted = location === 'UNAUTHORIZED'
+  const validLocation = locationNotGranted ? placeholderLocation : location
+  // console.log('location', location, location === 'UNAUTHORIZED')
 
   return (
     <Fragment>
@@ -26,10 +29,10 @@ const CustomMap = () => {
         // Google Map with Marker
         <MapView
           style={{ flex: 1 }}
-          initialRegion={location}
+          initialRegion={validLocation}
           region={destLocation}
           onRegionChange={region => setNewDestination(region)}>
-          <Marker coordinate={destLocation ?? location} image={ICONS.marker} />
+          <Marker coordinate={destLocation ?? validLocation} image={ICONS.marker} />
         </MapView>
       )}
     </Fragment>

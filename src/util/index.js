@@ -4,6 +4,7 @@ import axios from 'axios'
 import { COLORS } from '../theme/colors'
 import { GEO_CODE_URL } from '../config/constants'
 import Config from 'react-native-config'
+import NetInfo, { useNetInfo } from '@react-native-community/netinfo'
 
 // Toast customizations
 const baseToast = (props, color) => (
@@ -85,4 +86,11 @@ export const numFormatter = num => {
   } else if (num < 900) {
     return num // if value < 1000, nothing to do
   }
+}
+
+export const checkInternetConnection = async () => {
+  NetInfo.refresh().then(state => {
+    console.log('Connection type', state.type)
+    console.log('Is connected?', state.isConnected)
+  })
 }

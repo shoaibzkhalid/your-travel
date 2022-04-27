@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from 'react'
 import GetLocation from 'react-native-get-location'
-import { getCountryFromLatLng, getLatlngFromAddress } from '.'
+import { getCountryFromLatLng, getLatlngFromAddress, showErrorToast } from '.'
 import { HomeContext } from '../state/homeContext'
 
 const deltaCoordinates = {
@@ -36,31 +36,49 @@ export const useLocation = () => {
   // user location effect
   useEffect(() => {
     ;(async () => {
-      const location = await GetLocation.getCurrentPosition({
-        // Setting this to true makes location null on Android Emulator
-        enableHighAccuracy: false,
-        timeout: 15000,
-      })
+      try {
+        const location = await GetLocation.getCurrentPosition({
+          // Setting this to true makes location null on Android Emulator
+          enableHighAccuracy: false,
+          timeout: 15000,
+        })
 
-      const userLocation = location
+        const userLocation = location
 
-      // getting user country from latitude and longitude
-      const userCountry = await getCountryFromLatLng(
-        userLocation?.latitude,
-        userLocation?.longitude,
-      )
+        // getting user country from latitude and longitude
+        const userCountry = await getCountryFromLatLng(
+          userLocation?.latitude,
+          userLocation?.longitude,
+        )
 
-      // console.log('check', userCountry)
-      if (!location) return
-      setLocation({
-        ...home,
-        location: {
-          latitude: location?.latitude,
-          longitude: location?.longitude,
-          ...deltaCoordinates,
-        },
-        userCountry,
-      })
+        // console.log('check', userCountry)
+        if (!location) return
+        setLocation({
+          ...home,
+          location: {
+            latitude: location?.latitude,
+            longitude: location?.longitude,
+            ...deltaCoordinates,
+          },
+          userCountry,
+        })
+      } catch (error) {
+        if (error.code == 'UNAUTHORIZED') {
+          setLocation({
+            ...home,
+            location: error.code,
+          })
+          showErrorToast('Location permission not granted')
+          return
+        }
+
+        console.log(
+          'error getting location',
+          error,
+
+          error.code == 'UNAUTHORIZED',
+        )
+      }
     })()
   }, [])
 
